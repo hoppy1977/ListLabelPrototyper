@@ -1,0 +1,71 @@
+﻿<Window x:Class="ListLabelPrototyper.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:listLabelPrototyper="clr-namespace:ListLabelPrototyper"
+        mc:Ignorable="d"
+        Title="List and Label Test Harness"
+        Height="450"
+        Width="650"
+		ResizeMode="CanResize">
+
+	<Window.DataContext>
+		<listLabelPrototyper:MainViewModel x:Name="ViewModel" />
+	</Window.DataContext>
+
+	<Window.InputBindings>
+		<KeyBinding Key="Escape" Command="{Binding CloseCommand}" />
+	</Window.InputBindings>
+
+	<Grid Margin="15,10,15,20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="3*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+
+		<Grid Grid.Row="0" Grid.Column="0">
+			<Grid Grid.Row="0" Grid.Column="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2*"></ColumnDefinition>
+					<ColumnDefinition Width="1*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+
+				<ListBox Grid.Row="0" Grid.Column="0"
+					SelectionMode="Single"
+					ItemsSource="{Binding DemoList}"
+ 					SelectedItem="{Binding SelectedItem}"
+					BorderThickness="1"
+					BorderBrush="Black"
+					SelectedIndex="0">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+
+				<DockPanel Grid.Row="0" Grid.Column="1">
+					<Button DockPanel.Dock="Top" Margin="20,10,20,10" Width="80" Command="{Binding SelectedItem.DesignCommand}">_Design</Button>
+					<Button DockPanel.Dock="Top" Margin="20,10,20,10" Width="80" Command="{Binding SelectedItem.PrintCommand}">_Print</Button>
+					<Button DockPanel.Dock="Top" Margin="20,10,20,10" Width="80" Command="{Binding SelectedItem.ExportCommand}">_Export</Button>
+					<TextBlock
+						Margin="20,10,20,10"
+						TextWrapping="Wrap"
+						Text="{Binding SelectedItem.Description}" />
+				</DockPanel>
+			</Grid>
+		</Grid>
+
+		<!-- Second row -->
+		<Button Grid.Row="1" HorizontalAlignment="Center" Margin="0,10,0,5" Width="100" Height="30" Command="{Binding CloseCommand}">_Close</Button>
+
+		<!-- Third row -->
+		<Grid Grid.Row="2">
+			<TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">For internal use by Minfos staff only!</TextBlock>
+			<TextBlock HorizontalAlignment="Right" Margin="0,10,0,0" Text="{Binding VersionText}"/>
+		</Grid>
+
+	</Grid>
+</Window>
